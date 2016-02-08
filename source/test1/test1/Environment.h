@@ -8,7 +8,6 @@
 class CEnvironment
 {
 
-
 public:
 	CEnvironment(SDL_Setup* sdlSetup, int * passed_CameraX, int * passed_CameraY);
 	~CEnvironment(void);
@@ -18,6 +17,8 @@ public:
 
     void SaveToFile();
 	bool LoadFromFile(GameMode passedGameMode);
+
+
 
 private:
 

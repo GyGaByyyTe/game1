@@ -16,6 +16,7 @@ enum ITEMS
 
 class Inventory
 {
+
 public:
     Inventory(SDL_Setup* passedSdlSetup,
               std::array< std::array<CSprite*, 12 >, 6 > & passedStage,
@@ -28,7 +29,6 @@ public:
 
     void PlaceNewStage(int numberStage, int i);
     void PlaceNewHallway(int numberStage, int i);
-
 
 private:
     void DrawNewBlockSelection();

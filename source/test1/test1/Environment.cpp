@@ -1,7 +1,7 @@
 #include "Environment.h"
 
-const int NUMBER_FENCE = 16;
-const int NUMBER_FLOOR = 12;
+int NUMBER_FENCE = 16;
+int NUMBER_FLOOR = 12;
 int size_modify = 2;
 
 CEnvironment::CEnvironment(SDL_Setup* sdlSetup, int * passed_CameraX, int * passed_CameraY)
@@ -24,26 +24,26 @@ CEnvironment::CEnvironment(SDL_Setup* sdlSetup, int * passed_CameraX, int * pass
 	CameraX = passed_CameraX;
 	CameraY = passed_CameraY;
 	// дорога
-	for (size_t i = 0; i < NUMBER_FENCE; i++)
+	for (int i = 0; i < NUMBER_FENCE; i++)
 	{
 		fence[i] = new CSprite(sdlSetup->GetRenderer(), "zabor.png", 32*size_modify*i, 640, 32*size_modify, 32*size_modify, CameraX, CameraY);
 	}
 	// трава
-	for (size_t i = 0; i < NUMBER_FENCE; i++)
+	for (int i = 0; i < NUMBER_FENCE; i++)
 	{
 		grass[i] = new CSprite(sdlSetup->GetRenderer(), "grass.png", 32*size_modify*i, 704, 32*size_modify, 32*size_modify, CameraX, CameraY);
 	}
 
 	//пустые слоты
-	for (size_t i = 0; i < NUMBER_FLOOR; i++)
-	{
-		Stage[0][i] = new CSprite(sdlSetup->GetRenderer(), "empty.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*i, 640, 32*size_modify, 32*size_modify, CameraX, CameraY);
-	}
+	//for (size_t i = 0; i < NUMBER_FLOOR; i++)
+	//{
+	//	Stage[0][i] = new CSprite(sdlSetup->GetRenderer(), "empty.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*i, 640, 32*size_modify, 32*size_modify, CameraX, CameraY);
+	//}
 	// пол
-	for (size_t i = 0; i < NUMBER_FLOOR; i++)
-	{
-		Hallway[0][i] = new CSprite(sdlSetup->GetRenderer(), "floor.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*i, 704, 32*size_modify, 32*size_modify, CameraX, CameraY);
-	}
+	//for (size_t i = 0; i < NUMBER_FLOOR; i++)
+	//{
+	//	Hallway[0][i] = new CSprite(sdlSetup->GetRenderer(), "floor.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*i, 704, 32*size_modify, 32*size_modify, CameraX, CameraY);
+	//}
 	//входы в ТЦ смещены на 28 чтоб не перекрывали пол, а стыковались
 	entrance[0] = new CSprite(sdlSetup->GetRenderer(), "e1.png", (32*(NUMBER_FENCE-NUMBER_FLOOR)/2 + 28), 640, 32*size_modify, 64*size_modify, CameraX, CameraY);
 	entrance[1] = new CSprite(sdlSetup->GetRenderer(), "e2.png", (32*size_modify*(NUMBER_FENCE - (NUMBER_FENCE-NUMBER_FLOOR)/2) - 28), 640, 32*size_modify, 64*size_modify, CameraX, CameraY);
@@ -68,11 +68,11 @@ void CEnvironment::DrawInvetory()
 
 void CEnvironment::DrawBack(GameMode gameMode)
 {
-	for (size_t i = 0; i < NUMBER_FENCE; i++)
+	for (int i = 0; i < NUMBER_FENCE; i++)
 	{
 		fence[i]->Draw(gameMode);
 	}
-	for (size_t i = 0; i < NUMBER_FENCE; i++)
+	for (int i = 0; i < NUMBER_FENCE; i++)
 	{
 		grass[i]->Draw(gameMode);
 	}
@@ -143,7 +143,7 @@ bool CEnvironment::LoadFromFile( GameMode passedGameMode)
     std::ifstream levelFile(levelPath.c_str());
     if(levelFile.is_open())
     {
-        DeleteEnvironment();
+        //DeleteEnvironment();
 
         int numberStage, numberOnStage;
         std::string type, textureFileName;
@@ -197,11 +197,11 @@ bool CEnvironment::LoadFromFile( GameMode passedGameMode)
 void CEnvironment::DeleteEnvironment()
 {
 
-	for (size_t i = 0; i < NUMBER_FENCE; i++)
+	for (int i = 0; i < NUMBER_FENCE; i++)
 	{
 		delete fence[i];
 	}
-	for (size_t i = 0; i < NUMBER_FENCE; i++)
+	for (int i = 0; i < NUMBER_FENCE; i++)
 	{
 		delete grass[i];
 	}

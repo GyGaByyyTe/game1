@@ -5,6 +5,7 @@
 const int INVENTORY_X = 585;
 const int INVENTORY_Y = 10;
 
+
 Inventory::Inventory(SDL_Setup *passedSdlSetup,
                      std::array< std::array<CSprite*, 12 >, 6 > & passedStage,
                      std::array< std::array<CSprite*, 12 >, 6 > & passedHallway,
@@ -13,6 +14,7 @@ Inventory::Inventory(SDL_Setup *passedSdlSetup,
     Hallway(passedHallway)
 
 {
+
     cameraX = passedCameraX;
     cameraY = passedCameraY;
     staticCamera = 0;
@@ -151,12 +153,20 @@ void Inventory::Update()
 
 void Inventory::PlaceNewStage(int numberStage, int numberOnStage)
 {
-    Stage[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(),"empty.png",64,64,64,64,cameraX,cameraY);
+	int NUMBER_FENCE = 16;
+	int NUMBER_FLOOR = 12;
+	int size_modify = 2;
+    //Stage[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(),"empty.png",64,64,64,64,cameraX,cameraY);
+	Stage[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(), "empty.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*numberOnStage, 640-96*numberStage, 32*size_modify, 32*size_modify, cameraX, cameraY);
 }
 
 void Inventory::PlaceNewHallway(int numberStage, int numberOnStage)
 {
-    Hallway[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(),"floor.png",64,64,64,64,cameraX,cameraY);
+	int NUMBER_FENCE = 16;
+	int NUMBER_FLOOR = 12;
+	int size_modify = 2;
+    //Hallway[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(),"floor.png",64,64,64,64,cameraX,cameraY);
+	Hallway[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(), "floor.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*numberOnStage, 704-96*numberStage, 32*size_modify, 32*size_modify, cameraX, cameraX);
 }
 
 void Inventory::UpdateNewBlockSelection()
