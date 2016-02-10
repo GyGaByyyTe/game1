@@ -115,6 +115,7 @@ void Inventory::Update()
         {
             switch (currentItem) {
             case ITEM_STAGE:
+				PlaceNew(newBlockPosX,newBlockPosY, items[currentItem]->GetTexturePath() + ".png");
                 //PlaceNewStage(newBlockPosX,newBlockPosY,itemWidth,itemHeight, items[currentItem]->GetTexturePath() + ".png");
                 break;
             case ITEM_HALLWAY:
@@ -149,14 +150,52 @@ void Inventory::Update()
         }
     }*/
 }
+void Inventory::PlaceNew(int x, int y, std::string filePath)
+{
+	int NUMBER_FENCE = 16;
+	int NUMBER_FLOOR = 12;
+	int size_modify = 2;
 
+	int numberStage = 0, numberOnStage = 0;
+	if ((x >= 128) && (x <= 896)
+				   && // если пока верхний угол в пределах допустимого места
+		(y >= 160) && (y <= 704))
+	{
+		if((x % (32*size_modify)) <= 32 )
+		{
+			//слева
+			numberOnStage = (x - 128) / 64;
+		}
+		else
+		{
+			//справа
+			numberOnStage = (x - 64) / 64;
+		}
+		if((y % 96) <= 48 )
+		{
+			//снизу
+			numberStage = (y - 128) / 96;
+			numberStage = abs(5-numberStage);
+		}
+		else
+		{
+			//сверху
+			numberStage = (y - 96) / 96;
+			numberStage = abs(5-numberStage);
+		}	
+		std::cout << numberStage << ' ' << numberOnStage << std::endl;
+		Hallway[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(),"floor.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*numberOnStage, 704-96*numberStage, 32*size_modify, 32*size_modify, cameraX, cameraX);
+		Stage[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(), filePath, (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*numberOnStage, 640-96*numberStage, 32*size_modify, 32*size_modify, cameraX, cameraY);
+
+	}
+}
 
 void Inventory::PlaceNewStage(int numberStage, int numberOnStage)
 {
 	int NUMBER_FENCE = 16;
 	int NUMBER_FLOOR = 12;
 	int size_modify = 2;
-    //Stage[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(),"empty.png",64,64,64,64,cameraX,cameraY);
+	Hallway[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(), "floor.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*numberOnStage, 704-96*numberStage, 32*size_modify, 32*size_modify, cameraX, cameraX);
 	Stage[numberStage][numberOnStage] = new CSprite(sdlSetup->GetRenderer(), "empty.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*numberOnStage, 640-96*numberStage, 32*size_modify, 32*size_modify, cameraX, cameraY);
 }
 

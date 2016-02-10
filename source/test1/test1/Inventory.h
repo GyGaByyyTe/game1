@@ -27,8 +27,10 @@ public:
     void DrawFront();
     void DrawBack();
 
+	void PlaceNew(int x, int y, std::string filePath);
     void PlaceNewStage(int numberStage, int i);
     void PlaceNewHallway(int numberStage, int i);
+
 
 private:
     void DrawNewBlockSelection();

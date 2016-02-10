@@ -7,20 +7,12 @@ int size_modify = 2;
 CEnvironment::CEnvironment(SDL_Setup* sdlSetup, int * passed_CameraX, int * passed_CameraY)
 {
 	for (size_t i = 0; i < 6; i++)
-	{
 		for (size_t j = 0; j < 12; j++)
 		{
 			Stage[i][j] = nullptr;
-		}
-	}
-
-	for (size_t i = 0; i < 6; i++)
-	{
-		for (size_t j = 0; j < 12; j++)
-		{
 			Hallway[i][j] = nullptr;
 		}
-	}
+
 	CameraX = passed_CameraX;
 	CameraY = passed_CameraY;
 	// дорога
@@ -33,17 +25,6 @@ CEnvironment::CEnvironment(SDL_Setup* sdlSetup, int * passed_CameraX, int * pass
 	{
 		grass[i] = new CSprite(sdlSetup->GetRenderer(), "grass.png", 32*size_modify*i, 704, 32*size_modify, 32*size_modify, CameraX, CameraY);
 	}
-
-	//пустые слоты
-	//for (size_t i = 0; i < NUMBER_FLOOR; i++)
-	//{
-	//	Stage[0][i] = new CSprite(sdlSetup->GetRenderer(), "empty.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*i, 640, 32*size_modify, 32*size_modify, CameraX, CameraY);
-	//}
-	// пол
-	//for (size_t i = 0; i < NUMBER_FLOOR; i++)
-	//{
-	//	Hallway[0][i] = new CSprite(sdlSetup->GetRenderer(), "floor.png", (32*size_modify*(NUMBER_FENCE-NUMBER_FLOOR)/2)+32*size_modify*i, 704, 32*size_modify, 32*size_modify, CameraX, CameraY);
-	//}
 	//входы в ТЦ смещены на 28 чтоб не перекрывали пол, а стыковались
 	entrance[0] = new CSprite(sdlSetup->GetRenderer(), "e1.png", (32*(NUMBER_FENCE-NUMBER_FLOOR)/2 + 28), 640, 32*size_modify, 64*size_modify, CameraX, CameraY);
 	entrance[1] = new CSprite(sdlSetup->GetRenderer(), "e2.png", (32*size_modify*(NUMBER_FENCE - (NUMBER_FENCE-NUMBER_FLOOR)/2) - 28), 640, 32*size_modify, 64*size_modify, CameraX, CameraY);
@@ -57,6 +38,20 @@ CEnvironment::~CEnvironment(void)
 	SaveToFile();
 
 	DeleteEnvironment();
+
+	for (int i = 0; i < NUMBER_FENCE; i++)
+	{
+		delete fence[i];
+	}
+	for (int i = 0; i < NUMBER_FENCE; i++)
+	{
+		delete grass[i];
+	}
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		delete entrance[i];
+	}
 
     delete inventory;
 }
@@ -99,7 +94,6 @@ void CEnvironment::DrawBack(GameMode gameMode)
 	{
 		entrance[i]->Draw(gameMode);
 	}
-
 }
 
 void CEnvironment::Update()
@@ -122,6 +116,11 @@ void CEnvironment::SaveToFile()
 
 		for (size_t j = 0; j < 12; j++)
 		{
+			if ( dynamic_cast<CSprite*>(Hallway[i][j]) )
+			{
+				levelFile << "1 ";
+			}
+			else
 				levelFile << "0 ";
 		}
 
@@ -143,7 +142,7 @@ bool CEnvironment::LoadFromFile( GameMode passedGameMode)
     std::ifstream levelFile(levelPath.c_str());
     if(levelFile.is_open())
     {
-        //DeleteEnvironment();
+        DeleteEnvironment();
 
         int numberStage, numberOnStage;
         std::string type, textureFileName;
@@ -168,10 +167,11 @@ bool CEnvironment::LoadFromFile( GameMode passedGameMode)
 					levelFile >> semicolon;
 					if(semicolon != ';')
 					{
-
-						inventory->PlaceNewStage(numberStage, numberOnStage);
+						if(semicolon != '0')
+						{
+							inventory->PlaceNewStage(numberStage, numberOnStage);
+						}
 						numberOnStage++;
-
 					}
 					else
 					{
@@ -197,15 +197,6 @@ bool CEnvironment::LoadFromFile( GameMode passedGameMode)
 void CEnvironment::DeleteEnvironment()
 {
 
-	for (int i = 0; i < NUMBER_FENCE; i++)
-	{
-		delete fence[i];
-	}
-	for (int i = 0; i < NUMBER_FENCE; i++)
-	{
-		delete grass[i];
-	}
-
 	for (size_t i = 0; i < 6; i++)
 	{
 		for (size_t j = 0; j < 12; j++)
@@ -221,11 +212,6 @@ void CEnvironment::DeleteEnvironment()
 			if(dynamic_cast<CSprite*>(Hallway[i][j]))
 				delete Hallway[i][j];
 		}
-	}
-
-	for (size_t i = 0; i < 2; i++)
-	{
-		delete entrance[i];
 	}
 
 }
