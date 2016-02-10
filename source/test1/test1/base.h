@@ -7,16 +7,21 @@
 #include <SDL_ttf.h>
 
 #include <sstream>
+
+#define NUMBER_FENCE 16
+#define NUMBER_FLOOR 12
+#define size_modify 2
+
 template <typename T>
 std::string to_string(T value)
 {
-    std::ostringstream os;
-    os << value;
-    return os.str();
+	std::ostringstream os;
+	os << value;
+	return os.str();
 }
 
 enum GameMode
 {
-    GM_GAMEPLAY,
-    GM_LEVELEDIT
+	GM_GAMEPLAY,
+	GM_LEVELEDIT
 };

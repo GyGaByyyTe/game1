@@ -5,25 +5,27 @@
 class Item
 {
 public:
-    Item(std::string defaultTexturePath, int DefaultW, int DefaultH, SDL_Renderer* renderer, int iconCrop, const int passed_INVENTORY_X, const int passed_INVENTORY_Y);
-    ~Item();
-    void DrawIcon();
-    int GetDefaultW(){return defaultW;}
-    int GetDefaultH(){return defaultH;}
-    std::string GetTexturePath(){return texturePath;}
-    void SetTexturePath(std::string newTexturePath);
+	Item(std::string defaultTexturePath, int DefaultW, int DefaultH, SDL_Renderer* renderer, int iconCrop, const int passed_INVENTORY_X, const int passed_INVENTORY_Y);
+	~Item();
+	void DrawIcon();
+	int GetDefaultW(){return defaultW;}
+	int GetDefaultH(){return defaultH;}
+	std::string GetTexturePath(){return texturePath;}
+	int GetIconCrop(){return iconCrop;}
+	void SetTexturePath(std::string newTexturePath);
 
 private:
-    CSprite* icon;
-    int defaultW;
-    int defaultH;
-    static int count;
+	CSprite* icon;
+	int defaultW;
+	int defaultH;
+	static int count;
 
-    std::string texturePath;
+	std::string texturePath;
+	int iconCrop;
 
-    const int INVENTORY_X;
-    const int INVENTORY_Y;
+	const int INVENTORY_X;
+	const int INVENTORY_Y;
 
-    int staticCamera;
+	int staticCamera;
 };
 

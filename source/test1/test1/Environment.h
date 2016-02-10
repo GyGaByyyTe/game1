@@ -11,11 +11,11 @@ class CEnvironment
 public:
 	CEnvironment(SDL_Setup* sdlSetup, int * passed_CameraX, int * passed_CameraY);
 	~CEnvironment(void);
-    void DrawInvetory();
+	void DrawInvetory();
 	void DrawBack(GameMode gameMode);
-    void Update();
+	void Update();
 
-    void SaveToFile();
+	void SaveToFile();
 	bool LoadFromFile(GameMode passedGameMode);
 
 
@@ -37,6 +37,6 @@ private:
 
 	Inventory * inventory;
 
-    GameMode gameMode;
+	GameMode gameMode;
 };
 
